@@ -32,9 +32,11 @@ void main()
     loc.backupPath = "C:\\Users\\Filip\\Desktop\\testfilesys\\FDSFiles\\Backup\\";
     loc.xlmPath = "C:\\Users\\Filip\\Desktop\\testfilesys\\xmlfile.txt";
     loc.programFolder = "C:\\Users\\Filip\\Desktop\\testfilesys\\program\\";
-
+    loc.rewrite = true;
+    loc.serverName = "Server1";
+    
     String^ folder;
-    folder = Dialogs::getFolderName();
+    folder = "asdasdas";//Dialogs::getFolderName();
 
 
     //str = FileDialogs::BrowseFolder("");
@@ -48,12 +50,23 @@ void main()
         return;
     }
 
-    vector<Location> locations;
-    locations.push_back(loc);
+    Helper::writeConfig(loc, "C:\\Users\\Filip\\Documents\\JCU\\CPP\\FDS\\config.txt");
+    
+    //vector<Location> locations = Helper::parseConfig("C:\\Users\\Filip\\Documents\\JCU\\CPP\\FDS\\config.txt");
 
-    string source = Helper::SysStringToStd(folder);
-    string delimiter = "\\";
-    string folderName = Helper::getFolderNameFromPath(source, delimiter);
+    //String^ str3 = gcnew String(locations[1].serverName.c_str());
+    //String^ str4 = gcnew String(locations[1].backupPath.c_str());
+    //String^ str5 = gcnew String(locations[1].programFolder.c_str());
+    //String^ str6 = gcnew String(locations[1].xlmPath.c_str());
+
+    //MessageBox::Show(str3);
+    //MessageBox::Show(str4);
+    //MessageBox::Show(str5);
+    //MessageBox::Show(str6);
+
+    //string source = Helper::SysStringToStd(folder);
+    //string delimiter = "\\";
+    //string folderName = Helper::getFolderNameFromPath(source, delimiter);
 
    //; fs::copy_file("C:\\Users\\Filip\\Desktop\\testfilesys\\FDSFiles\\Backup\\V.VPR.35.2021.0526.5\\App\\text123.txt", loc.programFolder+"text123.txt", fs::copy_options::overwrite_existing);
 
@@ -64,12 +77,12 @@ void main()
 
     //bcp.copy();
 
-    Rewrite rwt;
+  /*  Rewrite rwt;
     rwt.setSource(source);
     rwt.setFolderName(folderName);
     rwt.setLocations(locations);
 
-    rwt.copy();
+    rwt.copy();*/
 
     //MessageBox::Show(folder);
     //delete folder;

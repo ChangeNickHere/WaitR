@@ -55,6 +55,7 @@ namespace WaitR {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(WaitRMenu::typeid));
 			this->pictureBoxLogo = (gcnew System::Windows::Forms::PictureBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
@@ -63,9 +64,10 @@ namespace WaitR {
 			// 
 			// pictureBoxLogo
 			// 
-			this->pictureBoxLogo->Location = System::Drawing::Point(158, 37);
+			this->pictureBoxLogo->InitialImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBoxLogo.InitialImage")));
+			this->pictureBoxLogo->Location = System::Drawing::Point(127, 35);
 			this->pictureBoxLogo->Name = L"pictureBoxLogo";
-			this->pictureBoxLogo->Size = System::Drawing::Size(483, 206);
+			this->pictureBoxLogo->Size = System::Drawing::Size(526, 223);
 			this->pictureBoxLogo->TabIndex = 0;
 			this->pictureBoxLogo->TabStop = false;
 			// 

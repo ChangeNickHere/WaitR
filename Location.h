@@ -7,5 +7,7 @@ public:
 	std::string programFolder;
 	std::string xlmPath;
 	std::string backupPath;
+	std::string serverName;
+	bool rewrite;
 };
 
