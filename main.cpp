@@ -4,8 +4,8 @@
 #include "Helper.h"
 #include "Backup.h"
 #include "Rewrite.h"
-#include "Location.h"
 #include "CopyFiles.h"
+#include "Logger.h"
 
 // libs
 #include <filesystem>
@@ -28,7 +28,7 @@ namespace fs = std::filesystem;
 [STAThreadAttribute]
 void main() 
 {
-    Location loc;
+    Helper::Location loc;
     loc.backupPath = "C:\\Users\\Filip\\Desktop\\testfilesys\\FDSFiles\\Backup\\";
     loc.xlmPath = "C:\\Users\\Filip\\Desktop\\testfilesys\\xmlfile.txt";
     loc.programFolder = "C:\\Users\\Filip\\Desktop\\testfilesys\\program\\";
@@ -37,7 +37,6 @@ void main()
     
     String^ folder;
     folder = "asdasdas";//Dialogs::getFolderName();
-
 
     //str = FileDialogs::BrowseFolder("");
 	// Now simpley display the file name 

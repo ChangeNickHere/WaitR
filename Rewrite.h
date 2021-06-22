@@ -2,7 +2,7 @@
 #include "CopyFiles.h"
 #include <vector>
 #include <string>
-#include "Location.h"
+#include "Helper.h"
 
 class Rewrite :
     public CopyFiles

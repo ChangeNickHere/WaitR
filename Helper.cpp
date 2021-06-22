@@ -1,6 +1,7 @@
 #include "Helper.h"
 
-std::string Helper::getFolderNameFromPath(std::string path, std::string delimiter)
+// Function that returns Folder name from path
+std::string Helper::getFolderNameFromPath(std::string path, const std::string & delimiter)
 {
     size_t pos = 0;
     std::string folder;
@@ -12,15 +13,17 @@ std::string Helper::getFolderNameFromPath(std::string path, std::string delimite
 	return folder;
 }
 
-std::string Helper::getFolderPath(std::string path)
+// Function returns folder path if file path obtained
+std::string Helper::getFolderPath(const std::string & path)
 {
     size_t pos;
     pos = path.find_last_of("/\\");
     std::string folderName = path.substr(0, pos);
-
+    
     return folderName;
 }
 
+// Helper function for converting System::String ^ to std::string
 std::string Helper::SysStringToStd(System::String^ s)
 {
     using namespace Runtime::InteropServices;
@@ -31,12 +34,16 @@ std::string Helper::SysStringToStd(System::String^ s)
     return out;
 }
 
-std::vector<Location> Helper::parseConfig(std::string configPath)
+// Function for parsing config that returns vector of locations properties
+std::vector<Helper::Location> Helper::parseConfig(const std::string & configPath)
 {
+    // init
     std::string line = "";
     std::ifstream config(configPath);
-    Location loc;
-    std::vector<Location> locations;    
+    Helper::Location loc;
+    std::vector<Helper::Location> locations;
+
+    // Read config by line
     while (std::getline(config, line))
     {
         if (line.empty() || line[0] == '#')
@@ -45,11 +52,17 @@ std::vector<Location> Helper::parseConfig(std::string configPath)
         }
         if (line[0] == '=')
         {
+            // End of location's properties push and continue for a new location
             locations.push_back(loc);
+            continue;
         }
+
+        // parse line with delimiter
         std::size_t delimiter = line.find("=");
         std::string name = line.substr(0, delimiter);
         std::string value = line.substr(delimiter + 1);
+
+        // Assign property
         if (name == "servername")
             loc.serverName = value;
         else if (name == "programfolder")
@@ -64,39 +77,62 @@ std::vector<Location> Helper::parseConfig(std::string configPath)
             loc.rewrite = b;
         }
     }
+
+    // close stream and return vector
     config.close();
     return locations;
 }
 
-void Helper::writeConfig(Location loc, std::string configFile)
+void Helper::writeConfig(const Helper::Location & loc, const std::string & configFile)
 {
-    std::fstream config(configFile, config.in | config.out);
-    std::string line;
-    int cnt = 0;
-    //erase existing config for same location
-    while (std::getline(config, line))
+    // init
+    Logger log;
+    std::string rewrite;
+
+    // get all locations from config
+    std::vector<Location> locations = Helper::parseConfig(configFile);
+  
+    // find duplicates elements and delete them
+    for (unsigned i = 0; i < locations.size(); i++)
     {
-        if (line.find(loc.serverName) != std::string::npos || (cnt > 0 && cnt <= 5))
+        if (locations[i].serverName == loc.serverName)
         {
-            line.replace(line.find(line),line.length(), "");
-            cnt++;
+            // erase same element
+            locations.erase(locations.begin() + i);
+            i--;
+            log.info("Duplicate " + locations[i].serverName + " erased");
         }
     }
-    config.close();
-    //
-    std::ofstream config(configFile, std::ios::out | std::ios::app);
-    std::string rewrite;
-    if (loc.rewrite)
-        rewrite = "true";
-    else
-        rewrite = "false";
-    //write out new config
-    config << "servername=" << loc.serverName << std::endl;
-    config << "programfolder=" << loc.programFolder << std::endl;
-    config << "xmlfilepath=" << loc.xlmPath << std::endl;
-    config << "backup=" << loc.backupPath << std::endl;
-    config << "rewrite=" << rewrite << std::endl;
-    config << std::string(loc.backupPath.length(), '=') << std::endl;
+    // push new element
+    locations.push_back(loc);
+    log.info("New server: " + loc.serverName + " added.");
+    // init stream
+    std::fstream config;
+    if (config.is_open())
+    {
+        log.error("Config is open! In write config function.");
+        MessageBox::Show("Config is open! Could not write. All actions reverted!");
+        return;
+    }
+    // open file for read and write with append mode
+    config.open(configFile, std::ios::in | std::ios::out);
+
+    // write out all locations
+    for (const Location& location : locations)
+    {
+        if (location.rewrite)
+            rewrite = "true";
+        else
+            rewrite = "false";
+        //write out new config
+        config << "servername=" << location.serverName << std::endl;
+        config << "programfolder=" << location.programFolder << std::endl;
+        config << "xmlfilepath=" << location.xlmPath << std::endl;
+        config << "backup=" << location.backupPath << std::endl;
+        config << "rewrite=" << rewrite << std::endl;
+        config << std::string(location.backupPath.length()+15, '=') << std::endl;
+    }
+
     config.close();
 }
 

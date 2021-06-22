@@ -97,12 +97,15 @@ namespace WaitR {
 			this->Controls->Add(this->suffixLabel);
 			this->Name = L"suffix";
 			this->Text = L"suffix";
+			this->Load += gcnew System::EventHandler(this, &suffix::suffix_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void suffix_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	};
 }

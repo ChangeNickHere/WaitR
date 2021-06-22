@@ -123,7 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Backup.cpp" />
-    <ClCompile Include="Location.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Rewrite.cpp" />
     <ClCompile Include="CopyFiles.cpp" />
     <ClCompile Include="main.cpp" />
@@ -139,7 +139,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Backup.h" />
-    <ClInclude Include="Location.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Rewrite.h" />
     <ClInclude Include="CopyFiles.h" />
     <ClInclude Include="fileBrowser.h" />

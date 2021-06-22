@@ -2,32 +2,32 @@
 
 
 
-std::string CopyFiles::getSource()
+std::string CopyFiles::getSource() const
 {
     return this->source;
 }
 
-std::string CopyFiles::getFolderName()
+std::string CopyFiles::getFolderName() const
 {
     return this->folderName;
 }
 
-void CopyFiles::setSource(std::string source)
+void CopyFiles::setSource(const std::string & source)
 {
     this->source = source;
 }
 
-void CopyFiles::setFolderName(std::string folderName)
+void CopyFiles::setFolderName(const std::string & folderName)
 {
     this->folderName = folderName;
 }
 
-void CopyFiles::setLocations(std::vector<Location> locations)
+void CopyFiles::setLocations(const std::vector<Helper::Location> & locations)
 {
     this->locations = std::move(locations);
 }
 
-std::vector<Location> CopyFiles::getLocations()
+std::vector<Helper::Location> CopyFiles::getLocations() const
 {
     return this->locations;
 }

@@ -7,55 +7,100 @@ namespace fs = std::filesystem;
 void Backup::copy() 
 {
     //init
+    Logger log;
     string source = this->getSource();
     string folderName = this->getFolderName();
-    vector<Location> locations = this->getLocations();
+    vector<Helper::Location> locations = this->getLocations();
     string fullpath = "";
 
+    // set copy options
     const auto copyOptions = fs::copy_options::overwrite_existing |
         fs::copy_options::update_existing |
         fs::copy_options::recursive;
-    cout << "hey" << endl;
-    for (const auto & location : locations)
+    
+    // Iterate throught locations
+    for (const auto& location : locations)
     {
         fullpath = location.backupPath + folderName + "\\";
-        // log this later
         //copy folder struct
-        fs::copy(source, fullpath, copyOptions);
-        cout << "hey2" << endl;
+        try
+        {
+            fs::copy(source, fullpath, copyOptions);
+        }
+        catch (std::filesystem::filesystem_error const& ex)
+        {
+            log.error("On server: " + location.serverName + " during copy folder structure.");
+            log.error(ex.what());
+            log.error(ex.path1().string());
+            log.error(ex.path2().string());
+        }
 
         fullpath += "App\\";
-        std::vector<std::filesystem::path> files;
         string backup = fullpath + "Backup\\";
-        fs::create_directory(backup);
+
+        try
+        {
+            // create backup dir
+            fs::create_directory(backup);
+        }
+        catch (std::filesystem::filesystem_error const& ex)
+        {
+            log.error("On server: " + location.serverName + " during creation of backup folder.");
+            log.error(ex.what());
+        }
+
+        // iterate throught files in directory
         for (const auto& file : std::filesystem::directory_iterator(fullpath))
         {
+            // filter only files
             if (fs::is_directory(file.path()))
             {
                 continue;
             }
+
             string filename = file.path().filename().string();
             fs::file_status s = fs::file_status{};
             string programFile = location.programFolder + "\\" + filename;
+
             if (fs::status_known(s) ? fs::exists(s) : fs::exists(programFile))
             {
-                //backup
-                fs::copy_file(programFile, backup+filename);
+                //backup files from program folder
+                try
+                {
+                    fs::copy_file(programFile, backup + filename);
+                }
+                catch (std::filesystem::filesystem_error const& ex)
+                {
+                    log.error("On server: " + location.serverName + " during file backup.");
+                    log.error(ex.what());
+                    log.error(ex.path1().string());
+                    log.error(ex.path2().string());
+                }
             }
-            //rewrite
-            fs::copy_file(file.path(), programFile, fs::copy_options::overwrite_existing);
+            try
+            {
+                //rewrite
+                fs::copy_file(file.path(), programFile, fs::copy_options::overwrite_existing);
+            }
+            catch (std::filesystem::filesystem_error const& ex)
+            {
+                log.error("On server: " + location.serverName + " during rewriting files in program folder.");
+                log.error(ex.what());
+                log.error(ex.path1().string());
+                log.error(ex.path2().string());
+            }
         }
 
         //delete XML file
         if (remove(location.xlmPath.c_str()) != 0)
-            //perror("Error deleting file");
-            //log this
+        {
+            log.error("Error deleting file on server " + location.serverName);
             return;
+        }
         else
-            //puts("File successfully deleted");
-            //log this
+        {
+            log.info("XML file successfully deleted on server " + location.serverName);
             return;
-        return;
+        }
     }
-    
 }
