@@ -1,0 +1,24 @@
+servername=server1
+programfolder=C:\Users\Filip\Desktop\testfilesys\server1\program\
+xmlfilepath=C:\Users\Filip\Desktop\testfilesys\server1\xmlfile.txt
+backup=C:\Users\Filip\Desktop\testfilesys\server1\
+rewrite=false
+================================================================================
+servername=server2
+programfolder=C:\Users\Filip\Desktop\testfilesys\server2\program\
+xmlfilepath=C:\Users\Filip\Desktop\testfilesys\server2\xmlfile.txt
+backup=C:\Users\Filip\Desktop\testfilesys\server2\
+rewrite=false
+================================================================================
+servername=server4
+programfolder=C:\Users\Filip\Desktop\testfilesys\server4\program\
+xmlfilepath=Dont need for rewrite
+backup=Dont need for rewrite
+rewrite=true
+================================================================================
+servername=server3
+programfolder=C:\Users\Filip\Desktop\testfilesys\server3\program
+xmlfilepath=Dont need for rewrite
+backup=Dont need for rewrite
+rewrite=true
+================================================================================

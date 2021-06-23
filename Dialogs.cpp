@@ -1,40 +1,8 @@
 #include "Dialogs.h"
-//#include <windows.h>
-//#include <shlobj.h>
-#include <string>
-#include <typeinfo>
-
-//using namespace System::Windows::Forms;
-
-
-//std::string Dialogs::getFileName()
-//{
-//	OPENFILENAMEA ofn;
-//	char szFile[100] = { 0 };
-//	ZeroMemory(&ofn, sizeof(ofn));
-//	ofn.lStructSize = sizeof(ofn);
-//	ofn.hwndOwner = NULL;
-//	ofn.lpstrFile = szFile;
-//	ofn.lpstrFile[0] = '\0';
-//	ofn.nMaxFile = sizeof(szFile);
-//	ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
-//	ofn.nFilterIndex = 1;
-//	ofn.lpstrFileTitle = NULL;
-//	ofn.nMaxFileTitle = 0;
-//	ofn.lpstrInitialDir = NULL;
-//	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-//
-//	if (GetOpenFileNameA(&ofn) == TRUE)
-//	{
-//		return ofn.lpstrFile;
-//	}
-//    return std::string();
-//}
 
 std::string Dialogs::getFolderName()
 {
 	System::String^ folder;
-
 	FolderBrowserDialog^ fd;
 	fd = gcnew System::Windows::Forms::FolderBrowserDialog;
 
@@ -191,13 +159,13 @@ std::string Dialogs::getSuffix()
 	{
 		if (System::String::IsNullOrEmpty(textBox1->Text))
 		{
-			return "";
+			return std::string();
 		}
 		return Helper::SysStringToStd(textBox1->Text);
 	}
 	else
 	{
-		return "";
+		return std::string();
 	}
 
 	return std::string();

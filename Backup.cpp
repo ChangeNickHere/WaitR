@@ -1,5 +1,4 @@
 #include "Backup.h"
-#include <iostream>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -21,6 +20,9 @@ void Backup::copy()
     progBar->Maximum = locations.size();
     
     progBar->Step = 1;
+    progBar->Show();
+
+    log.info("Backing up on " + std::to_string(locations.size()) + " server(s).");
 
     // set copy options
     const auto copyOptions = fs::copy_options::overwrite_existing |
@@ -58,6 +60,10 @@ void Backup::copy()
             log.error("On server: " + location.serverName + " during creation of backup folder.");
             log.error(ex.what());
         }
+        catch (std::exception const& ex)
+        {
+            log.error(ex.what());
+        }
 
         // iterate throught files in directory
         for (const auto& file : std::filesystem::directory_iterator(fullpath))
@@ -86,6 +92,10 @@ void Backup::copy()
                     log.error(ex.path1().string());
                     log.error(ex.path2().string());
                 }
+                catch (std::exception const& ex)
+                {
+                    log.error(ex.what());
+                }
             }
             try
             {
@@ -99,6 +109,10 @@ void Backup::copy()
                 log.error(ex.path1().string());
                 log.error(ex.path2().string());
             }
+            catch (std::exception const& ex)
+            {
+                log.error(ex.what());
+            }
             progBar->PerformStep();
         }
 
@@ -106,12 +120,10 @@ void Backup::copy()
         if (remove(location.xlmPath.c_str()) != 0)
         {
             log.error("Error deleting file on server " + location.serverName);
-            return;
         }
         else
         {
             log.info("XML file successfully deleted on server " + location.serverName);
-            return;
         }
     }
 }

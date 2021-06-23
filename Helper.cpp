@@ -38,8 +38,10 @@ std::string Helper::SysStringToStd(System::String^ s)
 std::vector<Helper::Location> Helper::parseConfig()
 {
     // init
+    Logger log;
     std::filesystem::path currPath = std::filesystem::current_path();
     std::string configPath = currPath.u8string()+"\\Config.txt";
+    log.info(" parse config " + configPath);
     std::string line = "";
     std::ifstream config(configPath);
     Helper::Location loc;
@@ -91,7 +93,8 @@ void Helper::writeConfig(const Helper::Location & loc)
     // init
     Logger log;
     std::string rewrite;
-    std::string configFile = "./Config.txt";
+    std::filesystem::path currPath = std::filesystem::current_path();
+    std::string configPath = currPath.u8string() + "\\Config.txt";
 
     // get all locations from config
     std::vector<Location> locations = Helper::parseConfig();
@@ -125,7 +128,8 @@ void Helper::writeConfig(const Helper::Location & loc)
         return;
     }
     // open file for read and write with append mode
-    config.open(configFile, std::ios::in | std::ios::out);
+    config.open(configPath, std::ios::out | std::ios::in);
+    log.debug(configPath);
 
     // write out all locations
     for (const Location& location : locations)
@@ -140,60 +144,10 @@ void Helper::writeConfig(const Helper::Location & loc)
         config << "xmlfilepath=" << location.xlmPath << std::endl;
         config << "backup=" << location.backupPath << std::endl;
         config << "rewrite=" << rewrite << std::endl;
-        config << std::string(location.backupPath.length()+15, '=') << std::endl;
+        config << std::string(80, '=') << std::endl;
     }
 
     config.close();
 }
-//
-//void Helper::copyProcessWrapper()
-//{
-//    // select source folder
-//    std::string source = Dialogs::getFolderName();
-//
-//    // get suffix
-//    std::string suffix = Dialogs::getSuffix();
-//
-//    std::string foldername = Helper::getFolderNameFromPath(source, "\\");
-//    
-//    if (suffix != "")
-//    {
-//        foldername += "_" + suffix;
-//    }
-//
-//    // from config get servers properties
-//    std::vector<Helper::Location> locations = Helper::parseConfig("C:\\Users\\Filip\\Documents\\JCU\\CPP\\FDS\\config.txt");
-//
-//    // select servers
-//    // TODO
-//    locations = Dialogs::selectLocations(locations);
-//
-//    std::vector<Helper::Location> backupLocations;
-//    std::vector<Helper::Location> rewriteLocations;
-//
-//    // sort locations for rewrite or backup
-//    for (const Helper::Location& loc : locations)
-//    {
-//        if (loc.rewrite)
-//        {
-//            rewriteLocations.push_back(loc);
-//            continue;
-//        }
-//        backupLocations.push_back(loc);
-//    }
-//    
-//    Rewrite rewrite;
-//    rewrite.setSource(source);
-//    rewrite.setFolderName(foldername);
-//    rewrite.setLocations(rewriteLocations);
-//    rewrite.copy();
-//
-//    Backup backup;
-//    backup.setSource(source);
-//    backup.setFolderName(foldername);
-//    backup.setLocations(backupLocations);
-//    backup.copy();
-//
-//    MessageBox::Show("Completed");
-//}
+
 

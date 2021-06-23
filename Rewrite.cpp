@@ -40,6 +40,10 @@ void Rewrite::copy()
                 log.error(ex.path1().string());
                 log.error(ex.path2().string());
             }
+            catch (std::exception const& ex)
+            {
+                log.error(ex.what());
+            }
         }
 
     }

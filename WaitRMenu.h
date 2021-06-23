@@ -4,6 +4,7 @@
 #include "Dialogs.h"
 #include "Backup.h"
 #include "Rewrite.h"
+#include "Logger.h"
 
 namespace WaitR {
 
@@ -42,20 +43,6 @@ namespace WaitR {
 	public: System::Windows::Forms::PictureBox^ pictureBoxLogo;
 	private: System::Windows::Forms::Button^ btnCreateConfig;
 	private: System::Windows::Forms::Button^ btnCopy;
-	public:
-
-	public:
-
-	public:
-	protected:
-
-
-
-	public:
-
-
-	protected:
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -132,33 +119,49 @@ namespace WaitR {
 		configForm.ShowDialog();
 	}
 	private: System::Void btnCopy_Click(System::Object^ sender, System::EventArgs^ e) {
-		/*
-		1) get source
-		2) get suffix
-		3) get config
-		4) copy backup
-		5) copy rewrite
-		6) exit
-		implemet whole process?
-		*/
+
+		/*=================================================
+		*	Function to wrap all segments of copy process:
+		*		1) Get source
+		*		2) Get suffix
+		*		3) Combine folder name
+		*		4) Get config
+		*		5) Select copy locations
+		*		6) Copy backup
+		*		7) Copy rewrite
+		===================================================*/
+
+		Logger log;
+
 		// select source folder
 		std::string source = Dialogs::getFolderName();
+		log.info("Source set to: " + source);
 
 		// get suffix
 		std::string suffix = Dialogs::getSuffix();
+		log.info("Suffix set to: " + suffix);
 
 		std::string foldername = Helper::getFolderNameFromPath(source, "\\");
+
 
 		if (suffix != "")
 		{
 			foldername += "_" + suffix;
 		}
+		log.info("Backup folder name set to: " + foldername);
 
 		// from config get servers properties
 		std::vector<Helper::Location> locations = Helper::parseConfig();
+		log.info("Config parsed");
 
 		// select servers
 		locations = Dialogs::selectLocations(locations);
+
+		if (locations.empty())
+		{
+			log.info("No server selected!");
+			return;
+		}
 
 		std::vector<Helper::Location> backupLocations;
 		std::vector<Helper::Location> rewriteLocations;
@@ -186,7 +189,7 @@ namespace WaitR {
 		backup.setLocations(backupLocations);
 		backup.copy();
 
-		MessageBox::Show("Completed");
+		MessageBox::Show("Completed!");
 	}
 };
 }

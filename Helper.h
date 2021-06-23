@@ -41,17 +41,5 @@ namespace Helper
 	// Function that writes new server configuration to config file. If configuration exist then it will rewrite it.
 	void writeConfig(const Location & loc);
 
-
-	/*=================================================
-	*	Function to wrap all segments of copy process:
-	*		1) Get source
-	*		2) Get suffix
-	*		3) Combine folder name 
-	*		4) Get config
-	*		5) Select copy locations
-	*		6) Copy backup
-	*		7) Copy rewrite
-	===================================================*/
-	void copyProcessWrapper();
 };
 

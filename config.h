@@ -171,10 +171,12 @@ namespace WaitR {
 			// 
 			// config
 			// 
+			this->Icon = gcnew System::Drawing::Icon("pics\\icon.ico");
+			this->StartPosition = FormStartPosition::CenterScreen;
+			this->AcceptButton = this->BGenerate;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(373, 199);
-			this->AcceptButton = BGenerate;
 			this->Controls->Add(this->CBRewrite);
 			this->Controls->Add(this->TBXmlFilePath);
 			this->Controls->Add(this->LXmlFilePath);
@@ -195,6 +197,7 @@ namespace WaitR {
 private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 	Helper::Location loc;
+
 	if (CBRewrite->Checked)
 	{
 		if (String::IsNullOrEmpty(TBProgramFolder->Text) || String::IsNullOrEmpty(TBServerName->Text))
@@ -209,6 +212,10 @@ private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^
 			loc.serverName = Helper::SysStringToStd(TBServerName->Text);
 			loc.xlmPath = "Dont need for rewrite";
 			Helper::writeConfig(loc);
+			MessageBox::Show("Confing updated!");
+			this->BGenerate->DialogResult = System::Windows::Forms::DialogResult::OK;
+			this->Close();
+
 		}
 	}
 	else
@@ -216,7 +223,6 @@ private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^
 		if (String::IsNullOrEmpty(TBProgramFolder->Text) || String::IsNullOrEmpty(TBServerName->Text) || String::IsNullOrEmpty(TBXmlFilePath->Text) || String::IsNullOrEmpty(TBBackupAddress->Text))
 		{
 			MessageBox::Show("You must fill all fields!");
-			this->BGenerate->DialogResult = System::Windows::Forms::DialogResult::OK;
 		}
 		else
 		{
@@ -226,6 +232,9 @@ private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^
 			loc.serverName = Helper::SysStringToStd(TBServerName->Text);
 			loc.xlmPath = Helper::SysStringToStd(TBXmlFilePath->Text);
 			Helper::writeConfig(loc);
+			MessageBox::Show("Confing updated!");
+			this->BGenerate->DialogResult = System::Windows::Forms::DialogResult::OK;
+			this->Close();
 		}
 	}
 }

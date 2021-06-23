@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
-//#include <Windows.h>
 #include "Helper.h"
 #include <vector>
+#include <string>
+#include <typeinfo>
 
 namespace Dialogs
 {
