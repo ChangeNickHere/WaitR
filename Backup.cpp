@@ -13,6 +13,15 @@ void Backup::copy()
     vector<Helper::Location> locations = this->getLocations();
     string fullpath = "";
 
+    // Create and set progress bar
+    System::Windows::Forms::ProgressBar^ progBar = gcnew System::Windows::Forms::ProgressBar();
+    progBar->Name = L"Copying...";
+    progBar->Text = L"Copying...";
+    progBar->Minimum = 1;
+    progBar->Maximum = locations.size();
+    
+    progBar->Step = 1;
+
     // set copy options
     const auto copyOptions = fs::copy_options::overwrite_existing |
         fs::copy_options::update_existing |
@@ -22,6 +31,7 @@ void Backup::copy()
     for (const auto& location : locations)
     {
         fullpath = location.backupPath + folderName + "\\";
+        progBar->Text = gcnew String(location.serverName.c_str());
         //copy folder struct
         try
         {
@@ -89,6 +99,7 @@ void Backup::copy()
                 log.error(ex.path1().string());
                 log.error(ex.path2().string());
             }
+            progBar->PerformStep();
         }
 
         //delete XML file

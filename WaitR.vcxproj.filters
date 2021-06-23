@@ -53,12 +53,6 @@
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FormatConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fileBrowser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Dialogs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -88,5 +82,16 @@
     <Text Include="..\config.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="pics\menu2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pics\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pics\menu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

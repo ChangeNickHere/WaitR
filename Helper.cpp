@@ -35,9 +35,11 @@ std::string Helper::SysStringToStd(System::String^ s)
 }
 
 // Function for parsing config that returns vector of locations properties
-std::vector<Helper::Location> Helper::parseConfig(const std::string & configPath)
+std::vector<Helper::Location> Helper::parseConfig()
 {
     // init
+    std::filesystem::path currPath = std::filesystem::current_path();
+    std::string configPath = currPath.u8string()+"\\Config.txt";
     std::string line = "";
     std::ifstream config(configPath);
     Helper::Location loc;
@@ -83,24 +85,32 @@ std::vector<Helper::Location> Helper::parseConfig(const std::string & configPath
     return locations;
 }
 
-void Helper::writeConfig(const Helper::Location & loc, const std::string & configFile)
+// Function that writes new server configuration to config file. If configuration exist then it will rewrite it.
+void Helper::writeConfig(const Helper::Location & loc)
 {
     // init
     Logger log;
     std::string rewrite;
+    std::string configFile = "./Config.txt";
 
     // get all locations from config
-    std::vector<Location> locations = Helper::parseConfig(configFile);
+    std::vector<Location> locations = Helper::parseConfig();
   
-    // find duplicates elements and delete them
-    for (unsigned i = 0; i < locations.size(); i++)
+    // find duplicates and delete them
+    for (unsigned i = 0; i < locations.size();)
     {
         if (locations[i].serverName == loc.serverName)
         {
+            
+            // log erased element
+            log.info("Duplicate " + loc.serverName + " erased");
+            
             // erase same element
             locations.erase(locations.begin() + i);
-            i--;
-            log.info("Duplicate " + locations[i].serverName + " erased");
+        }
+        else
+        {
+            i++;
         }
     }
     // push new element
@@ -135,4 +145,55 @@ void Helper::writeConfig(const Helper::Location & loc, const std::string & confi
 
     config.close();
 }
+//
+//void Helper::copyProcessWrapper()
+//{
+//    // select source folder
+//    std::string source = Dialogs::getFolderName();
+//
+//    // get suffix
+//    std::string suffix = Dialogs::getSuffix();
+//
+//    std::string foldername = Helper::getFolderNameFromPath(source, "\\");
+//    
+//    if (suffix != "")
+//    {
+//        foldername += "_" + suffix;
+//    }
+//
+//    // from config get servers properties
+//    std::vector<Helper::Location> locations = Helper::parseConfig("C:\\Users\\Filip\\Documents\\JCU\\CPP\\FDS\\config.txt");
+//
+//    // select servers
+//    // TODO
+//    locations = Dialogs::selectLocations(locations);
+//
+//    std::vector<Helper::Location> backupLocations;
+//    std::vector<Helper::Location> rewriteLocations;
+//
+//    // sort locations for rewrite or backup
+//    for (const Helper::Location& loc : locations)
+//    {
+//        if (loc.rewrite)
+//        {
+//            rewriteLocations.push_back(loc);
+//            continue;
+//        }
+//        backupLocations.push_back(loc);
+//    }
+//    
+//    Rewrite rewrite;
+//    rewrite.setSource(source);
+//    rewrite.setFolderName(foldername);
+//    rewrite.setLocations(rewriteLocations);
+//    rewrite.copy();
+//
+//    Backup backup;
+//    backup.setSource(source);
+//    backup.setFolderName(foldername);
+//    backup.setLocations(backupLocations);
+//    backup.copy();
+//
+//    MessageBox::Show("Completed");
+//}
 

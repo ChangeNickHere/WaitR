@@ -35,17 +35,17 @@ void Logger::initCheck()
 	}
 }
 
-void Logger::error(const std::string& text)
+void Logger::error(const std::string& text) const
 {
 	stream << "Error: " << text << std::endl;
 }
 
-void Logger::debug(const std::string& text)
+void Logger::debug(const std::string& text) const
 {
 	stream << "Debug: " << text << std::endl;
 }
 
-void Logger::info(const std::string& text)
+void Logger::info(const std::string& text) const
 {
 	stream << "Info: " << text << std::endl;
 }

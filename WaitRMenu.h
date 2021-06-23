@@ -1,4 +1,9 @@
 #pragma once
+#include "config.h"
+#include "Helper.h"
+#include "Dialogs.h"
+#include "Backup.h"
+#include "Rewrite.h"
 
 namespace WaitR {
 
@@ -35,10 +40,19 @@ namespace WaitR {
 			}
 		}
 	public: System::Windows::Forms::PictureBox^ pictureBoxLogo;
-	protected:
-	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ btnCreateConfig;
+	private: System::Windows::Forms::Button^ btnCopy;
 	public:
-	private: System::Windows::Forms::Button^ button2;
+
+	public:
+
+	public:
+	protected:
+
+
+
+	public:
+
 
 	protected:
 
@@ -46,7 +60,7 @@ namespace WaitR {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -57,52 +71,122 @@ namespace WaitR {
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(WaitRMenu::typeid));
 			this->pictureBoxLogo = (gcnew System::Windows::Forms::PictureBox());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->btnCreateConfig = (gcnew System::Windows::Forms::Button());
+			this->btnCopy = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxLogo))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// pictureBoxLogo
 			// 
+			this->pictureBoxLogo->BackColor = System::Drawing::SystemColors::ButtonFace;
 			this->pictureBoxLogo->InitialImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBoxLogo.InitialImage")));
+			this->pictureBoxLogo->Image = System::Drawing::Image::FromFile("pics\\menu.png");
 			this->pictureBoxLogo->Location = System::Drawing::Point(127, 35);
 			this->pictureBoxLogo->Name = L"pictureBoxLogo";
 			this->pictureBoxLogo->Size = System::Drawing::Size(526, 223);
+			this->pictureBoxLogo->SizeMode = System::Windows::Forms::PictureBoxSizeMode::CenterImage;
 			this->pictureBoxLogo->TabIndex = 0;
 			this->pictureBoxLogo->TabStop = false;
+			this->pictureBoxLogo->WaitOnLoad = true;
 			// 
-			// button1
+			// btnCreateConfig
 			// 
-			this->button1->Location = System::Drawing::Point(158, 311);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(159, 23);
-			this->button1->TabIndex = 1;
-			this->button1->Text = L"button1";
-			this->button1->UseVisualStyleBackColor = true;
+			this->btnCreateConfig->Location = System::Drawing::Point(158, 311);
+			this->btnCreateConfig->Name = L"btnCreateConfig";
+			this->btnCreateConfig->Size = System::Drawing::Size(159, 23);
+			this->btnCreateConfig->TabIndex = 1;
+			this->btnCreateConfig->Text = L"Create config";
+			this->btnCreateConfig->UseVisualStyleBackColor = true;
+			this->btnCreateConfig->Click += gcnew System::EventHandler(this, &WaitRMenu::btnCreateConfig_Click);
 			// 
-			// button2
+			// btnCopy
 			// 
-			this->button2->Location = System::Drawing::Point(476, 311);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(165, 23);
-			this->button2->TabIndex = 2;
-			this->button2->Text = L"button2";
-			this->button2->UseVisualStyleBackColor = true;
+			this->btnCopy->Location = System::Drawing::Point(476, 311);
+			this->btnCopy->Name = L"btnCopy";
+			this->btnCopy->Size = System::Drawing::Size(165, 23);
+			this->btnCopy->TabIndex = 2;
+			this->btnCopy->Text = L"Copy files";
+			this->btnCopy->TextAlign = System::Drawing::ContentAlignment::TopCenter;
+			this->btnCopy->UseVisualStyleBackColor = true;
+			this->btnCopy->Click += gcnew System::EventHandler(this, &WaitRMenu::btnCopy_Click);
 			// 
 			// WaitRMenu
 			// 
+			this->Icon = gcnew System::Drawing::Icon("pics\\icon.ico");
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->StartPosition = FormStartPosition::CenterScreen;
 			this->ClientSize = System::Drawing::Size(803, 398);
-			this->Controls->Add(this->button2);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->btnCopy);
+			this->Controls->Add(this->btnCreateConfig);
 			this->Controls->Add(this->pictureBoxLogo);
-			this->Name = L"WaitRMenu";
-			this->Text = L"WaitRMenu";
+			this->Name = L"WaitR Menu";
+			this->Text = L"WaitR Menu";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxLogo))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
-	};
+	private: System::Void btnCreateConfig_Click(System::Object^ sender, System::EventArgs^ e) {
+		WaitR::config configForm;
+		configForm.ShowDialog();
+	}
+	private: System::Void btnCopy_Click(System::Object^ sender, System::EventArgs^ e) {
+		/*
+		1) get source
+		2) get suffix
+		3) get config
+		4) copy backup
+		5) copy rewrite
+		6) exit
+		implemet whole process?
+		*/
+		// select source folder
+		std::string source = Dialogs::getFolderName();
+
+		// get suffix
+		std::string suffix = Dialogs::getSuffix();
+
+		std::string foldername = Helper::getFolderNameFromPath(source, "\\");
+
+		if (suffix != "")
+		{
+			foldername += "_" + suffix;
+		}
+
+		// from config get servers properties
+		std::vector<Helper::Location> locations = Helper::parseConfig();
+
+		// select servers
+		locations = Dialogs::selectLocations(locations);
+
+		std::vector<Helper::Location> backupLocations;
+		std::vector<Helper::Location> rewriteLocations;
+
+		// sort locations for rewrite or backup
+		for (const Helper::Location& loc : locations)
+		{
+			if (loc.rewrite)
+			{
+				rewriteLocations.push_back(loc);
+				continue;
+			}
+			backupLocations.push_back(loc);
+		}
+
+		Rewrite rewrite;
+		rewrite.setSource(source);
+		rewrite.setFolderName(foldername);
+		rewrite.setLocations(rewriteLocations);
+		rewrite.copy();
+
+		Backup backup;
+		backup.setSource(source);
+		backup.setFolderName(foldername);
+		backup.setLocations(backupLocations);
+		backup.copy();
+
+		MessageBox::Show("Completed");
+	}
+};
 }

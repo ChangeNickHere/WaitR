@@ -142,9 +142,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Rewrite.h" />
     <ClInclude Include="CopyFiles.h" />
-    <ClInclude Include="fileBrowser.h" />
     <ClInclude Include="Dialogs.h" />
-    <ClInclude Include="FormatConfig.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="suffix.h">
       <FileType>CppForm</FileType>
@@ -166,6 +164,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\config.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="pics\icon.ico" />
+    <Image Include="pics\menu.png" />
+    <Image Include="pics\menu2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

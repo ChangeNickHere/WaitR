@@ -5,6 +5,11 @@
 #include "Helper.h"
 #include <filesystem>
 
+/*
+	Simple logger class.
+	Static stream sharing with other modules.
+	All logs are stored in one files named mdy_HM_log.txt
+*/
 class Logger
 {
 private:
@@ -14,9 +19,9 @@ private:
 
 public:
 	void initCheck();
-	void error(const std::string& text);
-	void debug(const std::string& text);
-	void info(const std::string & text);
+	void error(const std::string& text) const;
+	void debug(const std::string& text) const;
+	void info(const std::string & text) const;
 
 	Logger();
 	~Logger();
