@@ -18,9 +18,15 @@ void Backup::copy()
     progBar->Text = L"Copying...";
     progBar->Minimum = 1;
     progBar->Maximum = locations.size();
-    
     progBar->Step = 1;
     progBar->Show();
+
+    // Create form for progress bar
+    Form^ frm = gcnew Form();
+    frm->Controls->Add(progBar);
+    frm->StartPosition = FormStartPosition::CenterScreen;
+    frm->Name = L"Copy and backup";
+    frm->Show();
 
     log.info("Backing up on " + std::to_string(locations.size()) + " server(s).");
 
@@ -34,6 +40,7 @@ void Backup::copy()
     {
         fullpath = location.backupPath + folderName + "\\";
         progBar->Text = gcnew String(location.serverName.c_str());
+        frm->Text = gcnew String(location.serverName.c_str());
         //copy folder struct
         try
         {
@@ -126,4 +133,5 @@ void Backup::copy()
             log.info("XML file successfully deleted on server " + location.serverName);
         }
     }
+    frm->Close();
 }

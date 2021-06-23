@@ -13,9 +13,27 @@ void Rewrite::copy()
     string filename;
     string programFile;
 
+    // Create and set progress bar
+    System::Windows::Forms::ProgressBar^ progBar = gcnew System::Windows::Forms::ProgressBar();
+    progBar->Name = L"Copying...";
+    progBar->Text = L"Copying...";
+    progBar->Minimum = 1;
+    progBar->Maximum = locations.size();
+    progBar->Step = 1;
+    progBar->Show();
+
+    // Create form for progress bar
+    Form^ frm = gcnew Form();
+    frm->Controls->Add(progBar);
+    frm->StartPosition = FormStartPosition::CenterScreen;
+    frm->Name = L"Copy and backup";
+    frm->Show();
+
     //iterate through locations
     for (const Helper::Location& location : locations)
     {
+        progBar->Text = gcnew String(location.serverName.c_str());
+        frm->Text = gcnew String(location.serverName.c_str());
         // iterate throught files in folder
         for (const auto& file : std::filesystem::directory_iterator(fullpath))
         {
@@ -47,4 +65,5 @@ void Rewrite::copy()
         }
 
     }
+    frm->Close();
 }
