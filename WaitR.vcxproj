@@ -127,12 +127,8 @@
     <ClCompile Include="Rewrite.cpp" />
     <ClCompile Include="CopyFiles.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="fileBrowser.cpp" />
     <ClCompile Include="Dialogs.cpp" />
-    <ClCompile Include="FormatConfig.cpp" />
     <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="suffix.cpp" />
-    <ClCompile Include="WaitRMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -144,9 +140,6 @@
     <ClInclude Include="CopyFiles.h" />
     <ClInclude Include="Dialogs.h" />
     <ClInclude Include="Helper.h" />
-    <ClInclude Include="suffix.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
     <ClInclude Include="WaitRMenu.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -154,9 +147,6 @@
   <ItemGroup>
     <EmbeddedResource Include="config.resx">
       <DependentUpon>config.h</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="suffix.resx">
-      <DependentUpon>suffix.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitRMenu.resx">
       <DependentUpon>WaitRMenu.h</DependentUpon>

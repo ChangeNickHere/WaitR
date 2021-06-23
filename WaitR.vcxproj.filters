@@ -18,22 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FormatConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="fileBrowser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Dialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Helper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="suffix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitRMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CopyFiles.cpp">
@@ -58,9 +46,6 @@
     </ClInclude>
     <ClInclude Include="Helper.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="suffix.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="WaitRMenu.h">
       <Filter>Source Files</Filter>
