@@ -15,7 +15,9 @@
 			else source folder name "_" suffix
 		Choose locations oh which you want to copy
 		Hit ok to copy
+		
 == Log:
+
 	* Log file will be created.
 	* After program is done chceck log file for errors atc.
 
