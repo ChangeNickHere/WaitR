@@ -1,9 +1,0 @@
-Info: Source set to: C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5_MW_some_description
-Info: Suffix set to: 
-Info: Backup folder name set to: V.VPR.35.2021.0526.5_MW_some_description
-Info:  parse config C:\Users\Filip\Documents\JCU\CPP\FDS\WaitR\Config.txt
-Info: Config parsed
-Info: Count of servers that will be updated is: 4
-Info: Backing up on 2 server(s).
-Error: Error deleting file on server server1
-Error: Error deleting file on server server2
