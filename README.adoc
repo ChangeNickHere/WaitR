@@ -1,5 +1,5 @@
 # WaitR
-== C++ File Distribution Sytem
+== C++ File Distribution Sytem:
 
 == In menu:
 	
@@ -19,11 +19,12 @@
 	* Log file will be created.
 	* After program is done chceck log file for errors atc.
 
-== Folder structure
+== Folder structure:
+
 * WaitR will copy files from one source to multiple locations
 * WaitR expects exact source folder structure 
 
-`	..[Folder we want to copy from] 
+	`..[Folder we want to copy from] 
 		.[App folder with program files (important to have)]
 			.[files we want to copy (important to have)]
 		.[DB folder (not realy needed for this program but the others need it)]
