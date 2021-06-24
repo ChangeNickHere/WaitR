@@ -1,17 +1,16 @@
 #include "Rewrite.h"
 
-using namespace std;
-namespace fs = std::filesystem;
+
 
 void Rewrite::copy()
 {
-    //init
+    // Init
     Logger log;
-    string source = this->getSource();
-    vector<Helper::Location> locations = this->getLocations();
-    string fullpath = source + "\\App\\";
-    string filename;
-    string programFile;
+    std::string source = this->getSource();
+    std::vector<Helper::Location> locations = this->getLocations();
+    std::string fullpath = source + "\\App\\";
+    std::string filename;
+    std::string programFile;
 
     // Create and set progress bar
     System::Windows::Forms::ProgressBar^ progBar = gcnew System::Windows::Forms::ProgressBar();
@@ -32,13 +31,15 @@ void Rewrite::copy()
     //iterate through locations
     for (const Helper::Location& location : locations)
     {
+        // Show working server
         progBar->Text = gcnew String(location.serverName.c_str());
         frm->Text = gcnew String(location.serverName.c_str());
-        // iterate throught files in folder
+
+        // Iterate throught files in folder
         for (const auto& file : std::filesystem::directory_iterator(fullpath))
         {
             // filter only files
-            if (fs::is_directory(file.path()))
+            if (std::filesystem::is_directory(file.path()))
             {
                 continue;
             }
@@ -49,7 +50,7 @@ void Rewrite::copy()
             //overwrite existing files in program folder
             try
             {
-                fs::copy_file(file.path(), programFile, fs::copy_options::overwrite_existing);
+                std::filesystem::copy_file(file.path(), programFile, std::filesystem::copy_options::overwrite_existing);
             }
             catch (std::filesystem::filesystem_error const& ex)
             {
@@ -64,6 +65,10 @@ void Rewrite::copy()
             }
         }
 
+        // Update progress bar
+        progBar->PerformStep();
     }
+
+    // Close progress bar form
     frm->Close();
 }

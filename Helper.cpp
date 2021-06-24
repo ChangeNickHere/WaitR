@@ -3,6 +3,7 @@
 // Function that returns Folder name from path
 std::string Helper::getFolderNameFromPath(std::string path, const std::string & delimiter)
 {
+    // 
     size_t pos = 0;
     std::string folder;
     while ((pos = path.find(delimiter)) != std::string::npos) 
@@ -26,11 +27,11 @@ std::string Helper::getFolderPath(const std::string & path)
 // Helper function for converting System::String ^ to std::string
 std::string Helper::SysStringToStd(System::String^ s)
 {
-    using namespace Runtime::InteropServices;
     const char* chars =
-        (const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+        (const char*)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(s)).ToPointer();
     std::string out = chars;
-    Marshal::FreeHGlobal(IntPtr((void*)chars));
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(System::IntPtr((void*)chars));
+
     return out;
 }
 
@@ -46,6 +47,14 @@ std::vector<Helper::Location> Helper::parseConfig()
     std::ifstream config(configPath);
     Helper::Location loc;
     std::vector<Helper::Location> locations;
+  
+    if (config.is_open())
+    {
+        log.error("Config is open! In write config function.");
+        log.debug(configPath);
+        System::Windows::Forms::MessageBox::Show("Config is open! Could not write. All actions reverted!");
+        return;
+    }
 
     // Read config by line
     while (std::getline(config, line))
@@ -121,15 +130,16 @@ void Helper::writeConfig(const Helper::Location & loc)
     log.info("New server: " + loc.serverName + " added.");
     // init stream
     std::fstream config;
+    
+    // open file for read and write with append mode
+    config.open(configPath, std::ios::out | std::ios::in);
     if (config.is_open())
     {
         log.error("Config is open! In write config function.");
-        MessageBox::Show("Config is open! Could not write. All actions reverted!");
+        log.debug(configPath);
+        System::Windows::Forms::MessageBox::Show("Config is open! Could not write. All actions reverted!");
         return;
     }
-    // open file for read and write with append mode
-    config.open(configPath, std::ios::out | std::ios::in);
-    log.debug(configPath);
 
     // write out all locations
     for (const Location& location : locations)

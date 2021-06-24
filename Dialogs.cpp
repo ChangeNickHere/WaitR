@@ -3,12 +3,12 @@
 std::string Dialogs::getFolderName()
 {
 	System::String^ folder;
-	FolderBrowserDialog^ fd;
+	System::Windows::Forms::FolderBrowserDialog^ fd;
 	fd = gcnew System::Windows::Forms::FolderBrowserDialog;
 
 	// Show the FolderBrowserDialog.
 	System::Windows::Forms::DialogResult result = fd->ShowDialog();
-	if (result == ::DialogResult::OK)
+	if (result == System::Windows::Forms::DialogResult::OK)
 	{
 		folder = fd->SelectedPath;
 	}
@@ -21,7 +21,7 @@ std::vector<Helper::Location> Dialogs::selectLocations(std::vector<Helper::Locat
 {
 	// Init
 	Logger log;
-	Form^ frm = gcnew Form();
+	System::Windows::Forms::Form^ frm = gcnew  System::Windows::Forms::Form();
 	System::Windows::Forms::CheckBox^ box = gcnew System::Windows::Forms::CheckBox();
 	int cnt = 0;
 	std::vector<Helper::Location> outLocations;
@@ -47,28 +47,28 @@ std::vector<Helper::Location> Dialogs::selectLocations(std::vector<Helper::Locat
 	}
 
 	// Create ok button
-	Button^ okButton = gcnew Button();
+	System::Windows::Forms::Button^ okButton = gcnew  System::Windows::Forms::Button();
 	okButton->Name = L"OK";	
 	okButton->Text = L"OK";
 	okButton->Location = System::Drawing::Point(initOffset + cnt % 2 * xDistance, initOffset + cnt / 2 * yDistance);
 	okButton->UseVisualStyleBackColor = true;
-	okButton->DialogResult = DialogResult::OK;
+	okButton->DialogResult = System::Windows::Forms::DialogResult::OK;
 	cnt++;
 
 	// Create cancel button
-	Button^ cancelButton = gcnew Button();
+	System::Windows::Forms::Button^ cancelButton = gcnew  System::Windows::Forms::Button();
 	cancelButton->Name = L"Cancel";
 	cancelButton->Text = L"Cancel";
 	cancelButton->Location = System::Drawing::Point(initOffset + cnt % 2 * xDistance, initOffset + cnt / 2 * yDistance);
 	cancelButton->UseVisualStyleBackColor = true;
-	cancelButton->DialogResult = DialogResult::Cancel;
+	cancelButton->DialogResult = System::Windows::Forms::DialogResult::Cancel;
 	cnt++;
 	
 	// form settings
 	frm->Name = L"Select servers";
 	frm->Text = L"Select servers";
-	frm->StartPosition = FormStartPosition::CenterScreen;
-	frm->FormBorderStyle = FormBorderStyle::FixedDialog;
+	frm->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+	frm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
 	frm->Icon = gcnew System::Drawing::Icon("pics\\icon.ico");
 
 	// set form size
@@ -81,16 +81,16 @@ std::vector<Helper::Location> Dialogs::selectLocations(std::vector<Helper::Locat
 	frm->Controls->Add(cancelButton);
 
 	// on OK or Cancel button click;
-	if (frm->ShowDialog() == DialogResult::OK)
+	if (frm->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 	{
 		//find all selected loctaions
 		for (int i = 0; i < frm->Controls->Count; i++)
 		{
-			if (frm->Controls[i]->GetType() == CheckBox::typeid && static_cast<CheckBox^>(frm->Controls[i])->Checked)
+			if (frm->Controls[i]->GetType() == System::Windows::Forms::CheckBox::typeid && static_cast<System::Windows::Forms::CheckBox^>(frm->Controls[i])->Checked)
 			{
 				for (const Helper::Location & loc : locations)
 				{
-					if (loc.serverName == Helper::SysStringToStd(static_cast<CheckBox^>(frm->Controls[i])->Name))
+					if (loc.serverName == Helper::SysStringToStd(static_cast<System::Windows::Forms::CheckBox^>(frm->Controls[i])->Name))
 					{
 						outLocations.push_back(loc);
 					}
@@ -112,7 +112,7 @@ std::vector<Helper::Location> Dialogs::selectLocations(std::vector<Helper::Locat
 
 std::string Dialogs::getSuffix()
 {
-	Form^ frm = gcnew Form();
+	System::Windows::Forms::Form^ frm = gcnew  System::Windows::Forms::Form();
 
 	// create suffixLabel
 	System::Windows::Forms::Label^ suffixLabel = gcnew System::Windows::Forms::Label();
@@ -140,13 +140,13 @@ std::string Dialogs::getSuffix()
 	buttonContinue->TabIndex = 2;
 	buttonContinue->Text = L"continue";
 	buttonContinue->UseVisualStyleBackColor = true;
-	buttonContinue->DialogResult = DialogResult::OK;
+	buttonContinue->DialogResult = System::Windows::Forms::DialogResult::OK;
 	
 	// set form properties
 	frm->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 	frm->Icon = gcnew System::Drawing::Icon("pics\\icon.ico");
 	frm->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-	frm->StartPosition = FormStartPosition::CenterScreen;
+	frm->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 	frm->ClientSize = System::Drawing::Size(416, 188);
 	frm->AcceptButton = buttonContinue;
 	frm->Controls->Add(buttonContinue);
@@ -155,7 +155,7 @@ std::string Dialogs::getSuffix()
 	frm->Name = L"suffix";
 	frm->Text = L"suffix";
 
-	if (frm->ShowDialog() == DialogResult::OK)
+	if (frm->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 	{
 		if (System::String::IsNullOrEmpty(textBox1->Text))
 		{

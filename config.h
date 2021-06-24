@@ -55,11 +55,6 @@ namespace WaitR {
 	private: System::Windows::Forms::TextBox^ TBXmlFilePath;
 	private: System::Windows::Forms::CheckBox^ CBRewrite;
 
-
-
-
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -194,18 +189,27 @@ namespace WaitR {
 
 		}
 #pragma endregion
+
+/*
+* Button click that will check if relevant fields are filled
+* If not it will show modal message box
+* If they are then it will write in config file
+*/
 private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 	Helper::Location loc;
 
+	// Check if rewrite is wanted
 	if (CBRewrite->Checked)
 	{
+		// Program need to have correct config file so this must chceck if relevant fields are filled
 		if (String::IsNullOrEmpty(TBProgramFolder->Text) || String::IsNullOrEmpty(TBServerName->Text))
 		{
 			MessageBox::Show("Server name or program folder is empty!");
 		}
 		else
 		{
+			// Add server properties to locastion structure
 			loc.backupPath = "Dont need for rewrite";
 			loc.programFolder  = Helper::SysStringToStd(TBProgramFolder->Text);
 			loc.rewrite = CBRewrite->Checked;
@@ -213,6 +217,8 @@ private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^
 			loc.xlmPath = "Dont need for rewrite";
 			Helper::writeConfig(loc);
 			MessageBox::Show("Confing updated!");
+
+			// Form manipulation 
 			this->BGenerate->DialogResult = System::Windows::Forms::DialogResult::OK;
 			this->Close();
 
@@ -220,12 +226,14 @@ private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^
 	}
 	else
 	{
+		// Program need to have correct config file so this must chceck if relevant fields are filled
 		if (String::IsNullOrEmpty(TBProgramFolder->Text) || String::IsNullOrEmpty(TBServerName->Text) || String::IsNullOrEmpty(TBXmlFilePath->Text) || String::IsNullOrEmpty(TBBackupAddress->Text))
 		{
 			MessageBox::Show("You must fill all fields!");
 		}
 		else
 		{
+			// Add server properties to locastion structure
 			loc.backupPath = Helper::SysStringToStd(TBBackupAddress->Text);
 			loc.programFolder = Helper::SysStringToStd(TBProgramFolder->Text);
 			loc.rewrite = CBRewrite->Checked;
@@ -233,6 +241,8 @@ private: System::Void BGenerate_Click(System::Object^ sender, System::EventArgs^
 			loc.xlmPath = Helper::SysStringToStd(TBXmlFilePath->Text);
 			Helper::writeConfig(loc);
 			MessageBox::Show("Confing updated!");
+
+			// Form manipulation
 			this->BGenerate->DialogResult = System::Windows::Forms::DialogResult::OK;
 			this->Close();
 		}

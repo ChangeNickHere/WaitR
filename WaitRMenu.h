@@ -24,9 +24,6 @@ namespace WaitR {
 		WaitRMenu(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -118,43 +115,46 @@ namespace WaitR {
 		WaitR::config configForm;
 		configForm.ShowDialog();
 	}
+
+	   /*=================================================
+	   *	Function to wrap all segments of copy process:
+	   *		1) Get source
+	   *		2) Get suffix
+	   *		3) Combine folder name
+	   *		4) Get config
+	   *		5) Select copy locations
+	   *		6) Copy backup
+	   *		7) Copy rewrite
+	   ===================================================*/
 	private: System::Void btnCopy_Click(System::Object^ sender, System::EventArgs^ e) {
-
-		/*=================================================
-		*	Function to wrap all segments of copy process:
-		*		1) Get source
-		*		2) Get suffix
-		*		3) Combine folder name
-		*		4) Get config
-		*		5) Select copy locations
-		*		6) Copy backup
-		*		7) Copy rewrite
-		===================================================*/
-
+		
+		// Create logger for logging events
 		Logger log;
 
-		// select source folder
+		// Select folder which will be used as source for copy
 		std::string source = Dialogs::getFolderName();
 		log.info("Source set to: " + source);
 
-		// get suffix
+		// Get suffix
+		// Can be an empty string if no suffix is wanted
 		std::string suffix = Dialogs::getSuffix();
 		log.info("Suffix set to: " + suffix);
 
+		// Newly copied folder will have same and as source folder
 		std::string foldername = Helper::getFolderNameFromPath(source, "\\");
 
-
+		// If suffix is not enmpty add suffix to folder name
 		if (suffix != "")
 		{
 			foldername += "_" + suffix;
 		}
 		log.info("Backup folder name set to: " + foldername);
 
-		// from config get servers properties
+		// Get all servers properties from config file
 		std::vector<Helper::Location> locations = Helper::parseConfig();
 		log.info("Config parsed");
 
-		// select servers
+		// Select servers that we want to use for copy
 		locations = Dialogs::selectLocations(locations);
 
 		if (locations.empty())
@@ -163,10 +163,11 @@ namespace WaitR {
 			return;
 		}
 
+		// Init vectors for rewwrite and backup
 		std::vector<Helper::Location> backupLocations;
 		std::vector<Helper::Location> rewriteLocations;
 
-		// sort locations for rewrite or backup
+		// Sort locations for rewrite or backup
 		for (const Helper::Location& loc : locations)
 		{
 			if (loc.rewrite)
@@ -177,19 +178,25 @@ namespace WaitR {
 			backupLocations.push_back(loc);
 		}
 
+		// Init rewrite class
 		Rewrite rewrite;
 		rewrite.setSource(source);
 		rewrite.setFolderName(foldername);
 		rewrite.setLocations(rewriteLocations);
+		
+		// Rewrite files in program folder
 		rewrite.copy();
 
+		// Init backup class
 		Backup backup;
 		backup.setSource(source);
 		backup.setFolderName(foldername);
 		backup.setLocations(backupLocations);
+
+		// Copy and backup files
 		backup.copy();
 
-		MessageBox::Show("Completed!");
+		MessageBox::Show("Completed! \nCheck log for errors!");
 	}
 };
 }

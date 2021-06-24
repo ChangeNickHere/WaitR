@@ -156,12 +156,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\config.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="pics\icon.ico" />
     <Image Include="pics\menu.png" />
-    <Image Include="pics\menu2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Config.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

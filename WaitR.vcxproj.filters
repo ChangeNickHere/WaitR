@@ -64,19 +64,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\config.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="pics\menu2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="pics\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="pics\menu.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Config.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

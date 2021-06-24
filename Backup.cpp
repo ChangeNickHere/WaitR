@@ -1,16 +1,13 @@
 #include "Backup.h"
 
-using namespace std;
-namespace fs = std::filesystem;
-
 void Backup::copy() 
 {
-    //init
+    // Init
     Logger log;
-    string source = this->getSource();
-    string folderName = this->getFolderName();
-    vector<Helper::Location> locations = this->getLocations();
-    string fullpath = "";
+    std::string source = this->getSource();
+    std::string folderName = this->getFolderName();
+    std::vector<Helper::Location> locations = this->getLocations();
+    std::string fullpath = "";
 
     // Create and set progress bar
     System::Windows::Forms::ProgressBar^ progBar = gcnew System::Windows::Forms::ProgressBar();
@@ -22,29 +19,32 @@ void Backup::copy()
     progBar->Show();
 
     // Create form for progress bar
-    Form^ frm = gcnew Form();
+    System::Windows::Forms::Form^ frm = gcnew  System::Windows::Forms::Form();
     frm->Controls->Add(progBar);
-    frm->StartPosition = FormStartPosition::CenterScreen;
+    frm->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
     frm->Name = L"Copy and backup";
     frm->Show();
 
     log.info("Backing up on " + std::to_string(locations.size()) + " server(s).");
 
     // set copy options
-    const auto copyOptions = fs::copy_options::overwrite_existing |
-        fs::copy_options::update_existing |
-        fs::copy_options::recursive;
+    const auto copyOptions = std::filesystem::copy_options::overwrite_existing |
+        std::filesystem::copy_options::update_existing |
+        std::filesystem::copy_options::recursive;
     
     // Iterate throught locations
     for (const auto& location : locations)
     {
+        // Show working server
+        progBar->Text = gcnew System::String(location.serverName.c_str());
+        frm->Text = gcnew System::String(location.serverName.c_str());
+
         fullpath = location.backupPath + folderName + "\\";
-        progBar->Text = gcnew String(location.serverName.c_str());
-        frm->Text = gcnew String(location.serverName.c_str());
+
         //copy folder struct
         try
         {
-            fs::copy(source, fullpath, copyOptions);
+            std::filesystem::copy(source, fullpath, copyOptions);
         }
         catch (std::filesystem::filesystem_error const& ex)
         {
@@ -55,12 +55,12 @@ void Backup::copy()
         }
 
         fullpath += "App\\";
-        string backup = fullpath + "Backup\\";
+        std::string backup = fullpath + "Backup\\";
 
         try
         {
             // create backup dir
-            fs::create_directory(backup);
+            std::filesystem::create_directory(backup);
         }
         catch (std::filesystem::filesystem_error const& ex)
         {
@@ -76,21 +76,21 @@ void Backup::copy()
         for (const auto& file : std::filesystem::directory_iterator(fullpath))
         {
             // filter only files
-            if (fs::is_directory(file.path()))
+            if (std::filesystem::is_directory(file.path()))
             {
                 continue;
             }
 
-            string filename = file.path().filename().string();
-            fs::file_status s = fs::file_status{};
-            string programFile = location.programFolder + "\\" + filename;
+            std::string filename = file.path().filename().string();
+            std::filesystem::file_status s = std::filesystem::file_status{};
+            std::string programFile = location.programFolder + "\\" + filename;
 
-            if (fs::status_known(s) ? fs::exists(s) : fs::exists(programFile))
+            if (std::filesystem::status_known(s) ? std::filesystem::exists(s) : std::filesystem::exists(programFile))
             {
                 //backup files from program folder
                 try
                 {
-                    fs::copy_file(programFile, backup + filename);
+                    std::filesystem::copy_file(programFile, backup + filename);
                 }
                 catch (std::filesystem::filesystem_error const& ex)
                 {
@@ -107,7 +107,7 @@ void Backup::copy()
             try
             {
                 //rewrite
-                fs::copy_file(file.path(), programFile, fs::copy_options::overwrite_existing);
+                std::filesystem::copy_file(file.path(), programFile, std::filesystem::copy_options::overwrite_existing);
             }
             catch (std::filesystem::filesystem_error const& ex)
             {
@@ -120,6 +120,7 @@ void Backup::copy()
             {
                 log.error(ex.what());
             }
+            // Update progress bar
             progBar->PerformStep();
         }
 
@@ -133,5 +134,7 @@ void Backup::copy()
             log.info("XML file successfully deleted on server " + location.serverName);
         }
     }
+
+    // Close progress bar form
     frm->Close();
 }

@@ -28,7 +28,7 @@ void Logger::initCheck()
 		std::time_t result = std::time(nullptr);
 		struct tm* timeinfo;
 		timeinfo = localtime(&result);
-		strftime(buffer, 12,"%m%d%y_%H%M", timeinfo);
+		strftime(buffer, 12,"%d%m%y_%H%M", timeinfo);
 		std::string tim = Helper::SysStringToStd(result.ToString());
 		logFile = currPath.u8string() + "\\" + buffer + "_log.txt";
 		stream.open(logFile, std::ios::out);
