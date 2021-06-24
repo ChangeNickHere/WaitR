@@ -1,7 +1,0 @@
-Info: Source set to: C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5
-Info: Suffix set to: 
-Info: Backup folder name set to: V.VPR.35.2021.0526.5
-Info:  parse config C:\Users\Filip\Documents\JCU\CPP\FDS\WaitR\Config.txt
-Info: Config parsed
-Info: Count of servers that will be updated is: 2
-Info: Backing up on 0 server(s).
