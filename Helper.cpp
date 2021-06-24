@@ -48,12 +48,12 @@ std::vector<Helper::Location> Helper::parseConfig()
     Helper::Location loc;
     std::vector<Helper::Location> locations;
   
-    if (config.is_open())
+    if (!config.is_open())
     {
-        log.error("Config is open! In write config function.");
+        log.error("Config cannot be opened! In write config function.");
         log.debug(configPath);
-        System::Windows::Forms::MessageBox::Show("Config is open! Could not write. All actions reverted!");
-        return;
+        System::Windows::Forms::MessageBox::Show("Config cannot be opened! Could not write. All actions reverted!");
+        return locations;
     }
 
     // Read config by line
@@ -107,6 +107,10 @@ void Helper::writeConfig(const Helper::Location & loc)
 
     // get all locations from config
     std::vector<Location> locations = Helper::parseConfig();
+    if (locations.empty())
+    {
+        log.info("Before writing new stuff config was empty.");
+    }
   
     // find duplicates and delete them
     for (unsigned i = 0; i < locations.size();)
@@ -133,11 +137,11 @@ void Helper::writeConfig(const Helper::Location & loc)
     
     // open file for read and write with append mode
     config.open(configPath, std::ios::out | std::ios::in);
-    if (config.is_open())
+    if (!config.is_open())
     {
-        log.error("Config is open! In write config function.");
+        log.error("Config cannot be opened! In write config function.");
         log.debug(configPath);
-        System::Windows::Forms::MessageBox::Show("Config is open! Could not write. All actions reverted!");
+        System::Windows::Forms::MessageBox::Show("Config cannot be opened! Could not write. All actions reverted!");
         return;
     }
 

@@ -1,0 +1,19 @@
+Info: Source set to: C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5
+Info: Suffix set to: suffix4
+Info: Backup folder name set to: V.VPR.35.2021.0526.5_suffix4
+Info:  parse config C:\Users\Filip\Documents\JCU\CPP\FDS\WaitR\Config.txt
+Info: Config parsed
+Info: Count of servers that will be updated is: 3
+Error: On server: sever6 during file overwriting.
+Error: copy_file: Systém nemùže nalézt uvedenou cestu.: "C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5\App\text123.txt", "sever6\text123.txt"
+Error: C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5\App\text123.txt
+Error: sever6\text123.txt
+Error: On server: sever6 during file overwriting.
+Error: copy_file: Systém nemùže nalézt uvedenou cestu.: "C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5\App\ViscoPrinting.exe", "sever6\ViscoPrinting.exe"
+Error: C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5\App\ViscoPrinting.exe
+Error: sever6\ViscoPrinting.exe
+Error: On server: sever6 during file overwriting.
+Error: copy_file: Systém nemùže nalézt uvedenou cestu.: "C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5\App\ViscoPrintingClass.dll", "sever6\ViscoPrintingClass.dll"
+Error: C:\Users\Filip\Desktop\testfilesys\FDSFiles\V.VPR.35.2021.0526.5\App\ViscoPrintingClass.dll
+Error: sever6\ViscoPrintingClass.dll
+Info: Backing up on 0 server(s).

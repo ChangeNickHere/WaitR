@@ -22,9 +22,9 @@ void Rewrite::copy()
     progBar->Show();
 
     // Create form for progress bar
-    Form^ frm = gcnew Form();
+    System::Windows::Forms::Form^ frm = gcnew  System::Windows::Forms::Form();
     frm->Controls->Add(progBar);
-    frm->StartPosition = FormStartPosition::CenterScreen;
+    frm->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
     frm->Name = L"Copy and backup";
     frm->Show();
 
@@ -32,8 +32,8 @@ void Rewrite::copy()
     for (const Helper::Location& location : locations)
     {
         // Show working server
-        progBar->Text = gcnew String(location.serverName.c_str());
-        frm->Text = gcnew String(location.serverName.c_str());
+        progBar->Text = gcnew System::String(location.serverName.c_str());
+        frm->Text = gcnew System::String(location.serverName.c_str());
 
         // Iterate throught files in folder
         for (const auto& file : std::filesystem::directory_iterator(fullpath))
@@ -56,8 +56,8 @@ void Rewrite::copy()
             {
                 log.error("On server: " + location.serverName + " during file overwriting.");
                 log.error(ex.what());
-                log.error(ex.path1().string());
-                log.error(ex.path2().string());
+                log.error("From path: " + ex.path1().string());
+                log.error("To path: " + ex.path2().string());
             }
             catch (std::exception const& ex)
             {

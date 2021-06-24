@@ -153,7 +153,11 @@ namespace WaitR {
 		// Get all servers properties from config file
 		std::vector<Helper::Location> locations = Helper::parseConfig();
 		log.info("Config parsed");
-
+		if (locations.empty())
+		{
+			log.info("Config is empty! Nothing was parsed.");
+			return;
+		}
 		// Select servers that we want to use for copy
 		locations = Dialogs::selectLocations(locations);
 

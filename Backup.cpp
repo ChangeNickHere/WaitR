@@ -50,8 +50,8 @@ void Backup::copy()
         {
             log.error("On server: " + location.serverName + " during copy folder structure.");
             log.error(ex.what());
-            log.error(ex.path1().string());
-            log.error(ex.path2().string());
+            log.error("From path: " + ex.path1().string());
+            log.error("To path: "+ ex.path2().string());
         }
 
         fullpath += "App\\";
@@ -96,8 +96,8 @@ void Backup::copy()
                 {
                     log.error("On server: " + location.serverName + " during file backup.");
                     log.error(ex.what());
-                    log.error(ex.path1().string());
-                    log.error(ex.path2().string());
+                    log.error("From path: " + ex.path1().string());
+                    log.error("To path: " + ex.path2().string());
                 }
                 catch (std::exception const& ex)
                 {
@@ -113,8 +113,8 @@ void Backup::copy()
             {
                 log.error("On server: " + location.serverName + " during rewriting files in program folder.");
                 log.error(ex.what());
-                log.error(ex.path1().string());
-                log.error(ex.path2().string());
+                log.error("From path: " + ex.path1().string());
+                log.error("To path: " + ex.path2().string());
             }
             catch (std::exception const& ex)
             {

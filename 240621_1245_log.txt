@@ -1,0 +1,7 @@
+Info:  parse config C:\Users\Filip\Documents\JCU\CPP\FDS\WaitR\Config.txt
+Error: Config is open! In write config function.
+Debug: C:\Users\Filip\Documents\JCU\CPP\FDS\WaitR\Config.txt
+Info: Config is empty.
+Info: New server: server6 added.
+Error: Config is open! In write config function.
+Debug: C:\Users\Filip\Documents\JCU\CPP\FDS\WaitR\Config.txt

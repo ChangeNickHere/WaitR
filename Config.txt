@@ -22,3 +22,9 @@ xmlfilepath=Dont need for rewrite
 backup=Dont need for rewrite
 rewrite=true
 ================================================================================
+servername=sever6
+programfolder=sever6
+xmlfilepath=Dont need for rewrite
+backup=Dont need for rewrite
+rewrite=true
+================================================================================
