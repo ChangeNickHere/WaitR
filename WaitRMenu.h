@@ -200,7 +200,7 @@ namespace WaitR {
 		// Copy and backup files
 		backup.copy();
 
-		MessageBox::Show("Completed! \nCheck log for errors!");
+		MessageBox::Show("     Completed! \nCheck log if anything missing.");
 	}
 };
 }
