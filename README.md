@@ -1,7 +1,8 @@
 # WaitR
-C++ File Distribution Sytem
+== C++ File Distribution Sytem
 
-In menu:
+== In menu:
+	
 	1) Config
 		Shows popup with textboxes
 		Fill text boxes
@@ -14,21 +15,24 @@ In menu:
 			else source folder name "_" suffix
 		Choose locations oh which you want to copy
 		Hit ok to copy
-Log:
-	Log file will be created.
-	After program is done chceck log file for errors atc.
+== Log:
+	* Log file will be created.
+	* After program is done chceck log file for errors atc.
 
-WaitR will copy files from one source to multiple locations
-WaitR expects exact source folder structure 
-	..[Folder we want to copy from] 
+== Folder structure
+* WaitR will copy files from one source to multiple locations
+* WaitR expects exact source folder structure 
+
+`	..[Folder we want to copy from] 
 		.[App folder with program files (important to have)]
 			.[files we want to copy (important to have)]
 		.[DB folder (not realy needed for this program but the others need it)]
 		.[Reports folder(not realy needed for this program but the others need it)]
-		.[readme.txt file (not needed)]
+		.[readme.txt file (not needed)]`
 
-WaitR will create following structure if back up is needed
-	..[Backup folder location]	
+* WaitR will create following structure if back up is needed
+
+	`..[Backup folder location]	
 		..[Folder we want to copy from] 
 			.[App folder with program files]
 				.[Backup folder (created by WaitR)]
@@ -36,4 +40,4 @@ WaitR will create following structure if back up is needed
 				.[copied new files from source]
 			.[DB folder (not realy needed for this program but the others need it)]
 			.[Reports folder(not realy needed for this program but the others need it)]
-			.[readme.txt file (not needed)]
+			.[readme.txt file (not needed)]`
